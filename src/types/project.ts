@@ -15,12 +15,12 @@ export interface Task {
   description: string;
   status: TaskStatus;
   priority: TaskPriority;
-  assignee?: string;
   reporter: string;
   comments: Comment[];
   createdAt: Date;
   updatedAt: Date;
   storyPoints?: number;
+  outcome?: string;
 }
 
 export interface Project {

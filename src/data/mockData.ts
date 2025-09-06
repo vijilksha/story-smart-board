@@ -8,7 +8,7 @@ export const mockTasks: Task[] = [
     description: 'As a user, I want to be able to sign up and log in securely so that I can access my personalized dashboard.',
     status: 'todo',
     priority: 'high',
-    assignee: 'Sarah Johnson',
+    outcome: 'Secure authentication system implemented with OAuth support',
     reporter: 'John Doe',
     comments: [
       {
@@ -28,7 +28,7 @@ export const mockTasks: Task[] = [
     description: 'Create an interactive analytics dashboard that shows user engagement metrics and performance data.',
     status: 'progress',
     priority: 'medium',
-    assignee: 'Mike Chen',
+    outcome: 'Interactive dashboard with responsive charts and real-time metrics',
     reporter: 'Sarah Johnson',
     comments: [
       {
@@ -54,7 +54,7 @@ export const mockTasks: Task[] = [
     description: 'Document all REST API endpoints with examples and proper authentication headers.',
     status: 'review',
     priority: 'low',
-    assignee: 'Emma Wilson',
+    outcome: 'Complete API documentation with examples and authentication details',
     reporter: 'Tech Lead',
     comments: [],
     createdAt: new Date('2024-01-08'),
@@ -67,7 +67,7 @@ export const mockTasks: Task[] = [
     description: 'Set up the initial React Native project structure with navigation and basic components.',
     status: 'done',
     priority: 'urgent',
-    assignee: 'Alex Rodriguez',
+    outcome: 'React Native project structure with navigation and basic components completed',
     reporter: 'Product Manager',
     comments: [
       {
@@ -89,6 +89,7 @@ export const mockTasks: Task[] = [
     priority: 'high',
     reporter: 'Product Manager',
     comments: [],
+    outcome: 'Stripe integration for subscriptions and one-time payments',
     createdAt: new Date('2024-01-14'),
     updatedAt: new Date('2024-01-14'),
     storyPoints: 8,

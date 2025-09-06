@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Task, statusConfig, priorityConfig, Comment } from '@/types/project';
+import { Input } from '@/components/ui/input';
 import {
   Dialog,
   DialogContent,
@@ -25,6 +26,7 @@ interface TaskDialogProps {
 export const TaskDialog = ({ task, isOpen, onClose, onStatusChange, onTaskUpdate }: TaskDialogProps) => {
   const [newComment, setNewComment] = useState('');
   const [selectedStatus, setSelectedStatus] = useState(task.status);
+  const [outcome, setOutcome] = useState(task.outcome || '');
 
   const getInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
@@ -55,6 +57,16 @@ export const TaskDialog = ({ task, isOpen, onClose, onStatusChange, onTaskUpdate
     setSelectedStatus(newStatus);
     onStatusChange(task.id, newStatus);
     toast.success(`Task moved to ${statusConfig[newStatus].label}`);
+  };
+
+  const handleOutcomeUpdate = () => {
+    const updatedTask = {
+      ...task,
+      outcome: outcome.trim() || undefined,
+      updatedAt: new Date(),
+    };
+    onTaskUpdate(updatedTask);
+    toast.success('Outcome updated successfully');
   };
 
   const priority = priorityConfig[task.priority];
@@ -99,6 +111,22 @@ export const TaskDialog = ({ task, isOpen, onClose, onStatusChange, onTaskUpdate
             <p className="text-sm text-muted-foreground bg-muted p-3 rounded-md">
               {task.description}
             </p>
+          </div>
+
+          {/* Outcome Section */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Outcome</label>
+            <div className="flex gap-2">
+              <Input
+                value={outcome}
+                onChange={(e) => setOutcome(e.target.value)}
+                placeholder="What was accomplished or learned?"
+                className="flex-1"
+              />
+              <Button onClick={handleOutcomeUpdate} size="sm">
+                Update
+              </Button>
+            </div>
           </div>
 
           {/* Task Details */}

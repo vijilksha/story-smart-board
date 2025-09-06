@@ -48,18 +48,15 @@ export const TaskCard = ({ task, onStatusChange, onTaskUpdate }: TaskCardProps) 
             {task.description}
           </p>
           
+          {task.outcome && (
+            <div className="mb-3 p-2 bg-muted rounded text-xs">
+              <span className="font-medium">Outcome: </span>
+              <span className="text-muted-foreground">{task.outcome}</span>
+            </div>
+          )}
+          
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <div className="flex items-center gap-2">
-              {task.assignee && (
-                <div className="flex items-center gap-1">
-                  <Avatar className="h-5 w-5">
-                    <AvatarFallback className="text-xs">
-                      {getInitials(task.assignee)}
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
-              )}
-              
               {task.comments.length > 0 && (
                 <div className="flex items-center gap-1">
                   <MessageSquare className="h-3 w-3" />

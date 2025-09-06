@@ -24,8 +24,8 @@ export const AddTaskDialog = ({ isOpen, onClose, onAddTask }: AddTaskDialogProps
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState<TaskPriority>('medium');
-  const [assignee, setAssignee] = useState('');
   const [storyPoints, setStoryPoints] = useState<number>();
+  const [outcome, setOutcome] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,10 +40,10 @@ export const AddTaskDialog = ({ isOpen, onClose, onAddTask }: AddTaskDialogProps
       description: description.trim(),
       status: 'todo',
       priority,
-      assignee: assignee.trim() || undefined,
       reporter: 'Current User',
       comments: [],
       storyPoints,
+      outcome: outcome.trim() || undefined,
     };
 
     onAddTask(newTask);
@@ -52,8 +52,8 @@ export const AddTaskDialog = ({ isOpen, onClose, onAddTask }: AddTaskDialogProps
     setTitle('');
     setDescription('');
     setPriority('medium');
-    setAssignee('');
     setStoryPoints(undefined);
+    setOutcome('');
     
     onClose();
     toast.success('Task created successfully');
@@ -122,12 +122,12 @@ export const AddTaskDialog = ({ isOpen, onClose, onAddTask }: AddTaskDialogProps
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="assignee">Assignee</Label>
+            <Label htmlFor="outcome">Expected Outcome</Label>
             <Input
-              id="assignee"
-              value={assignee}
-              onChange={(e) => setAssignee(e.target.value)}
-              placeholder="Assign to team member"
+              id="outcome"
+              value={outcome}
+              onChange={(e) => setOutcome(e.target.value)}
+              placeholder="What should be accomplished?"
             />
           </div>
 
