@@ -15,6 +15,7 @@ export interface Task {
   description: string;
   status: TaskStatus;
   priority: TaskPriority;
+  assignee?: string;
   reporter: string;
   comments: Comment[];
   createdAt: Date;

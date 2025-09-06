@@ -146,6 +146,20 @@ export const TaskDialog = ({ task, isOpen, onClose, onStatusChange, onTaskUpdate
               </div>
             </div>
 
+            {task.assignee && (
+              <div className="space-y-1">
+                <span className="font-medium">Assignee</span>
+                <div className="flex items-center gap-2">
+                  <Avatar className="h-6 w-6">
+                    <AvatarFallback className="text-xs">
+                      {getInitials(task.assignee)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="text-muted-foreground">{task.assignee}</span>
+                </div>
+              </div>
+            )}
+
             <div className="space-y-1">
               <span className="font-medium flex items-center gap-1">
                 <Calendar className="h-4 w-4" />

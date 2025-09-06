@@ -19,8 +19,10 @@ const Index = () => {
       createdAt: new Date(),
     };
 
-    setProjects(prev => [...prev, newProject]);
+    const updatedProjects = [...projects, newProject];
+    setProjects(updatedProjects);
     setCurrentProject(newProject);
+    toast.success(`Project "${newProject.name}" created successfully!`);
   };
 
   const handleTaskAdd = (taskData: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>) => {
