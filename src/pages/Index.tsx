@@ -1,15 +1,52 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Project, Task, TaskStatus } from '@/types/project';
 import { mockProjects } from '@/data/mockData';
+import { localStorage_utils } from '@/lib/localStorage';
 import { ProjectSelector } from '@/components/ProjectSelector';
 import { KanbanBoard } from '@/components/KanbanBoard';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Zap } from 'lucide-react';
+import { Sparkles, Zap, HardDrive } from 'lucide-react';
 import { toast } from 'sonner';
 
 const Index = () => {
-  const [projects, setProjects] = useState<Project[]>(mockProjects);
-  const [currentProject, setCurrentProject] = useState<Project | null>(mockProjects[0]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [currentProject, setCurrentProject] = useState<Project | null>(null);
+
+  // Load data from localStorage on component mount
+  useEffect(() => {
+    const savedProjects = localStorage_utils.loadProjects();
+    
+    if (savedProjects.length > 0) {
+      setProjects(savedProjects);
+      
+      // Load the previously selected project
+      const savedProjectId = localStorage_utils.loadCurrentProjectId();
+      if (savedProjectId) {
+        const savedProject = savedProjects.find(p => p.id === savedProjectId);
+        setCurrentProject(savedProject || savedProjects[0]);
+      } else {
+        setCurrentProject(savedProjects[0]);
+      }
+    } else {
+      // Initialize with mock data if no saved data exists
+      setProjects(mockProjects);
+      setCurrentProject(mockProjects[0]);
+      localStorage_utils.saveProjects(mockProjects);
+      localStorage_utils.saveCurrentProjectId(mockProjects[0]?.id || null);
+    }
+  }, []);
+
+  // Save projects to localStorage whenever projects change
+  useEffect(() => {
+    if (projects.length > 0) {
+      localStorage_utils.saveProjects(projects);
+    }
+  }, [projects]);
+
+  // Save current project ID whenever it changes
+  useEffect(() => {
+    localStorage_utils.saveCurrentProjectId(currentProject?.id || null);
+  }, [currentProject]);
 
   const handleProjectCreate = (projectData: Omit<Project, 'id' | 'createdAt' | 'tasks'>) => {
     const newProject: Project = {
@@ -84,8 +121,11 @@ const Index = () => {
     setCurrentProject(updatedProject);
   };
 
-  const handleAIAssistClick = () => {
-    toast.info('AI features will be available after connecting to Supabase. Click the green Supabase button in the top right!');
+  const handleClearData = () => {
+    localStorage_utils.clearAll();
+    setProjects(mockProjects);
+    setCurrentProject(mockProjects[0]);
+    toast.success('All data cleared! Refreshed with demo data.');
   };
 
   return (
@@ -100,14 +140,21 @@ const Index = () => {
             <h1 className="text-xl font-bold text-foreground">ProjectFlow</h1>
           </div>
           
-          <Button 
-            variant="outline" 
-            onClick={handleAIAssistClick}
-            className="flex items-center gap-2 bg-gradient-primary text-white border-none hover:opacity-90"
-          >
-            <Sparkles className="h-4 w-4" />
-            AI Assistant
-          </Button>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 px-3 py-1 bg-green-100 dark:bg-green-900 rounded-full">
+              <HardDrive className="h-4 w-4 text-green-600 dark:text-green-400" />
+              <span className="text-sm font-medium text-green-700 dark:text-green-300">
+                Local Storage
+              </span>
+            </div>
+            <Button 
+              variant="outline" 
+              onClick={handleClearData}
+              className="text-sm"
+            >
+              Clear Data
+            </Button>
+          </div>
         </div>
       </header>
 
